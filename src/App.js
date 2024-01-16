@@ -1,10 +1,16 @@
 import React from "react";
 import NavBar from "./components/landingpage/navbar/NavBar";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const App = () => {
   return (
     <div>
-      <NavBar />
+      <Router>
+        <Routes>
+          <Route></Route>
+          <NavBar />
+        </Routes>
+      </Router>
     </div>
   );
 };
