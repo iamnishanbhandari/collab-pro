@@ -8,7 +8,7 @@ const App = () => {
       <Router>
         <NavBar />
         <Routes>
-          <Route>hello </Route>
+          <Route>hello fgdfg</Route>
         </Routes>
       </Router>
     </div>
