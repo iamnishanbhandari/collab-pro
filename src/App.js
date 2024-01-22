@@ -8,7 +8,9 @@ const App = () => {
       <Router>
         <NavBar />
         <Routes>
-          <Route>hello fgdfg</Route>
+          <Route path="">hello </Route>
+          <Route path="">hello </Route>
+          <Route path="">hello </Route>
         </Routes>
       </Router>
     </div>
