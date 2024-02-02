@@ -3,6 +3,7 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import OBJECTS from "../../../assets/OBJECTS.png";
 import { Link as ScrollLink } from "react-scroll";
+import { Link } from "react-router-dom";
 
 const navigation = [
   { name: "Why us", href: "why-us-section" },
@@ -56,12 +57,11 @@ export default function NavBar() {
               ))}
             </div>
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-              <a
-                href="#"
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                Log in <span aria-hidden="true">&rarr;</span>
-              </a>
+              <Link to={"/SignIn"}>
+                <div className="text-sm font-semibold leading-6 text-gray-900">
+                  Log in <span aria-hidden="true">&rarr;</span>
+                </div>
+              </Link>
             </div>
           </nav>
           <Dialog
