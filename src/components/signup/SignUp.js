@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Firebase/firebaseConfig";
 import { Link, useNavigate } from "react-router-dom";
-import light from "../../assets/light.png";
 import NavBar from "../landingpage/navbar/NavBar";
 
 const SignUp = () => {
@@ -46,12 +45,15 @@ const SignUp = () => {
       <NavBar />
       {/* <div className="flex justify-evenly "> */}
       <div className="border  flex flex-col justify-center  h-[100vh] ">
-        <div className="margin-auto pt-24  text-center border">
+        <div className="margin-auto pt-24  text-center ">
           <p className="text-5xl text-yellow-600">
             CONNECTING You TO The Right <br /> Voices
           </p>
         </div>
-        <div className=" h-500  w-96 m-auto mt-12">
+        <div
+          className=" h-500  w-96 m-auto mt-26 
+   bg-blue-100 bg-opacity-75 backdrop-blur-10 p-4 rounded-2xl "
+        >
           <form onSubmit={onSubmit}>
             <div className="">
               <div className="text-red-800 p-2 ">Email</div>
@@ -87,9 +89,9 @@ const SignUp = () => {
             </div>
 
             <div className="mt-4">
-              Have account ??
+              Already have account ??
               <Link to={"/signIn"}>
-                <button>sign in</button>
+                <button className="text-gray-600"> sign in</button>
               </Link>
             </div>
           </form>
