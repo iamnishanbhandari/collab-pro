@@ -5,11 +5,13 @@ import LandingPage from "./components/landingpage/LandingPage";
 import SignUp from "./components/signup/SignUp";
 import SignIn from "./components/signin/SignIn";
 import InfluencerDashboard from "./components/influencer/InfluencerDashboard";
+import PostBox from "./components/influencer/PostBox";
 
 const App = () => {
   return (
     <>
       <InfluencerDashboard />
+      {/* <PostBox /> */}
       {/* <Router>
         <Routes>
           <Route path="/" element={<LandingPage />}></Route>
