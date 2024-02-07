@@ -13,16 +13,25 @@ const App = () => {
   return (
     <>
       {/* <InfluencerChat /> */}
-      <InfluencerCampaings />
+      {/* <InfluencerCampaings /> */}
       {/* <InfluencerDashboard /> */}
       {/* <PostBox /> */}
-      {/* <Router>
+      <Router>
         <Routes>
           <Route path="/" element={<LandingPage />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
           <Route path="/SignIn" element={<SignIn />}></Route>
+          <Route
+            path="/InfluencerDashboard"
+            element={<InfluencerDashboard />}
+          ></Route>
+          <Route path="/InfluencerChat" element={<InfluencerChat />}></Route>
+          <Route
+            path="/InfluencerCampaings"
+            element={<InfluencerCampaings />}
+          ></Route>
         </Routes>
-      </Router> */}
+      </Router>
     </>
   );
 };

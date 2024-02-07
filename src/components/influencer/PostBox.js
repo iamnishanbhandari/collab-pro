@@ -33,7 +33,7 @@ const PostBox = () => {
                 </span>
                 <div className=" mb-4">
                   <div className="flex justify-center">
-                    <img src={cokerectangle}></img>
+                    <img src={cokerectangle} alt="img"></img>
                   </div>
                   <div>
                     <p className="font-semibold flex justify-center">
