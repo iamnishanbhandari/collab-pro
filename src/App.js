@@ -6,11 +6,15 @@ import SignUp from "./components/signup/SignUp";
 import SignIn from "./components/signin/SignIn";
 import InfluencerDashboard from "./components/influencer/InfluencerDashboard";
 import PostBox from "./components/influencer/PostBox";
+import InfluencerChat from "./components/influencer/InfluencerChat";
+import InfluencerCampaings from "./components/influencer/InfluencerCampaings";
 
 const App = () => {
   return (
     <>
-      <InfluencerDashboard />
+      {/* <InfluencerChat /> */}
+      <InfluencerCampaings />
+      {/* <InfluencerDashboard /> */}
       {/* <PostBox /> */}
       {/* <Router>
         <Routes>
