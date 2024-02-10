@@ -4,7 +4,7 @@ import { auth } from "../Firebase/firebaseConfig";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../landingpage/navbar/NavBar";
 
-const SignUp = () => {
+const BrandSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -79,20 +79,18 @@ const SignUp = () => {
               </div>
             </div>
 
-            <div>
-              <Link to={"/BrandSignup"}>
-                <button
-                  type="submit"
-                  className="bg-blue-700 text-white border-red-799 w-36 rounded-xl h-8 mt-6"
-                >
-                  Sign up
-                </button>
-              </Link>
+            <div className="">
+              <button
+                type="submit"
+                className="bg-blue-700 text-white border-red-799 w-36 rounded-xl h-8 mt-6"
+              >
+                Sign up
+              </button>
             </div>
 
             <div className="mt-4">
               Already have account ??
-              <Link to={"/BrandSignIn"}>
+              <Link to={"/BrandSignin"}>
                 <button className="text-gray-600"> sign in</button>
               </Link>
             </div>
@@ -108,4 +106,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default BrandSignup;

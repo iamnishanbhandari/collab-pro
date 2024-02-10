@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import OBJECTS from "../../../assets/OBJECTS.png";
 
 export default function Home() {
@@ -33,16 +34,21 @@ export default function Home() {
               </div>
 
               <div className="mt-20 flex justify-center w-auto">
-                <div className="flex  border-solid border-blue-700">
-                  <button className="rounded-3xl bg-blue-700 font-semibold text-white py-3 pr-12 pl-12 hover:bg-blue-900">
-                    For Influencer
-                  </button>
-                </div>
-                <div className=" border-solid border-blue-700">
-                  <button className=" rounded-3xl border border-solid border-blue-800 text-blue-900 font-semibold ml-2 py-3 pr-12 pl-12 hover:text-bold">
-                    For Brand
-                  </button>
-                </div>
+                <Link to={"/Signin"}>
+                  <div className="flex  border-solid border-blue-700">
+                    <button className="rounded-3xl bg-blue-700 font-semibold text-white py-3 pr-12 pl-12 hover:bg-blue-900">
+                      For Influencer
+                    </button>
+                  </div>
+                </Link>
+
+                <Link to={"/BrandSignin"}>
+                  <div className=" border-solid border-blue-700">
+                    <button className=" rounded-3xl border border-solid border-blue-800 text-blue-900 font-semibold ml-2 py-3 pr-12 pl-12 hover:text-bold">
+                      For Brand
+                    </button>
+                  </div>
+                </Link>
               </div>
             </div>
             <div className="mt-10">

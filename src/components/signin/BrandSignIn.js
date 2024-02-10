@@ -5,7 +5,7 @@ import { auth } from "../Firebase/firebaseConfig";
 import NavBar from "../landingpage/navbar/NavBar";
 import light from "../../assets/light.png";
 
-const SignIn = () => {
+const BrandSignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const SignIn = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        navigate("/InfluencerDashboard");
+        navigate("/BrandDashboard");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -110,7 +110,7 @@ const SignIn = () => {
 
             <div className="mt-4">
               Create account ??
-              <Link to={"/signup"}>
+              <Link to={"/BrandSignup"}>
                 <button className="text-gray-600"> sign up</button>
               </Link>
             </div>
@@ -131,4 +131,4 @@ const SignIn = () => {
     </>
   );
 };
-export default SignIn;
+export default BrandSignIn;
