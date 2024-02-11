@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import instagram from "../../assets/instagram.png";
 import tiktok from "../../assets/tiktok.png";
+import Nimabhauju from "../../assets/Nimabhauju.png";
 
 const BrandPostBox = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -99,20 +100,35 @@ const BrandPostBox = () => {
               </div>
             </div>
           )}
-          <div>
-            <img src={cokerectangle} alt="img" height={20}></img>
+          <div className="pt-10 ml-8 ">
+            <img src={Nimabhauju} alt="img" height={20}></img>
           </div>
-          <div className="m-10">
+          <div className="mt-10 ml-5">
             <div>
-              <p className="font-bold text-2xl ">
-                Cokemaina Dashain-Tihar Mahostav
-              </p>
+              <p className="font-bold text-2xl ">Nima Yangchen </p>
             </div>
             <div>
-              <p className="text-gray-500 font-semibold">
-                by Bottlers Nepal Limited
-              </p>
+              <p className="text-gray-500 font-semibold">Singer | Vlogger </p>
             </div>
+            <div className="flex gap-2 mt-2 ">
+              <div className="flex gap-2 ">
+                <div>
+                  <img src={instagram}></img>
+                </div>
+                <div>
+                  <span className="">53.0k</span>
+                </div>
+              </div>
+              <div className="flex gap-2 ">
+                <div>
+                  <img src={tiktok}></img>
+                </div>
+                <div>
+                  <span className="">53.0k</span>
+                </div>
+              </div>
+            </div>
+
             <div className="mt-2 font-bold">
               <p>Rs 25,000/-</p>
             </div>
