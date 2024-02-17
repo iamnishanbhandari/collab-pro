@@ -116,11 +116,11 @@ const InfluencerSignIn = () => {
             </div>
           </form>
         </div>
-        <div className="margin-auto pt-24  text-center ">
+        <div className="margin-auto pt-24  text-center  mr-44 w-350">
           {/* <p className="text-5xl text-yellow-600">
             CONNECTING You TO The Right <br /> Voices
           </p> */}
-          <img src={light} height={110}></img>
+          <img src={light}></img>
         </div>
       </div>
       {/* 
