@@ -3,10 +3,11 @@ import PostBox from "./PostBox";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../Firebase/firebaseConfig";
+import { useAuth } from "../context/AuthContext";
 
 const InfluencerSideBar = () => {
   const navigate = useNavigate();
-
+  const { name, loggedIn, email } = useAuth();
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
@@ -26,6 +27,11 @@ const InfluencerSideBar = () => {
           w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 "
           >
             <div className="mb-2 p-4 ">
+              {/* {loggedIn ? (
+                <p>Welcome, {email}!</p>
+              ) : (
+                <p>Please log in to access your dashboard.</p>
+              )} */}
               <h5 className="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900">
                 Profile
               </h5>
