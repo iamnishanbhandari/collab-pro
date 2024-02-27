@@ -212,148 +212,133 @@
 // };
 
 // export default BrandCampaings;
-
 import React, { useState, useEffect } from "react";
 import BrandAllCampaings from "./BrandAllCampaings";
-import { collection, addDoc, getDocs } from "firebase/firestore";
-import { serverTimestamp } from "firebase/firestore";
-import { TextField, Button } from "@mui/material";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebaseConfig";
+import { Button, Box, TextField } from "@mui/material";
+import BrandSideBar from "./BrandSideBar";
+import { serverTimestamp } from "firebase/firestore";
 
-const BrandCampaings = () => {
-  const q = collection(db, "brandnewcampaings");
-  const [createcampaings, setCreatecampaings] = useState([]);
-  const [input, setInput] = useState("");
+const BrandCampaigns = () => {
+  const [createCampaigns, setCreateCampaigns] = useState([]);
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState();
-  const [price, setPrice] = useState();
-  const [reach, setReach] = useState();
-
-  const [isPopupOpen, setIsPopOpen] = useState(false);
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [reach, setReach] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const openPopup = () => {
-    setIsPopOpen(true);
+    setIsPopupOpen(true);
   };
 
   const closePopup = () => {
-    setIsPopOpen(false);
+    setIsPopupOpen(false);
+  };
+  const fetchCreateCampaigns = async () => {
+    const q = collection(db, "brandnewcampaigns");
+    const snapshot = await getDocs(q);
+    const campaignsData = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setCreateCampaigns(campaignsData);
   };
 
   useEffect(() => {
-    const fetchcreatecampaings = async () => {
-      const snapshot = await getDocs(q);
-      setCreatecampaings(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          item: doc.data(),
-        }))
-      );
-    };
-    fetchcreatecampaings();
-  }, [q]);
+    fetchCreateCampaigns();
+  }, []);
 
-  const addcreatecampaings = async (e) => {
+  const addCreateCampaign = async (e) => {
     e.preventDefault();
+    const q = collection(db, "brandnewcampaigns");
     await addDoc(q, {
-      createcampaings: input,
+      title: title,
+      description: description,
+      price: price,
+      reach: reach,
       timestamp: serverTimestamp(),
     });
-    setInput("");
-    const snapshot = await getDocs(q);
-    setCreatecampaings(
-      snapshot.docs.map((doc) => ({
-        id: doc.id,
-        item: doc.data(),
-      }))
-    );
+    setTitle("");
+    setDescription("");
+    setPrice("");
+    setReach("");
+    fetchCreateCampaigns(); // Fetch campaigns after adding a new one
   };
 
   return (
     <>
-      <div>
-        <Button variant="contained" color="primary" onClick={openPopup}>
-          Create New Campaings
-        </Button>
-      </div>
-      {isPopupOpen && (
-        <div className="border popup-overlay fixed inset-0 flex items-center justify-center">
-          <div className="bg-white p-8 rounded-lg shadow-md">
-            <span className=" flex justify-end -m-4 text-3xl  text-gray-500">
-              <button onClick={closePopup}>&times;</button>
-            </span>
-            <div className="App">
-              <h2>Create Campaings</h2>
-              <form>
-                <div className="flex flex-col ">
-                  <div>
-                    <div className=" mt-5">
-                      <TextField
-                        id="outlined-basic"
-                        label="Title"
-                        variant="outlined"
-                        style={{ margin: "0px 5px" }}
-                        size="small"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                      />
-                    </div>
-
-                    <div className=" mt-5">
-                      <TextField
-                        id="outlined-basic"
-                        label="Description"
-                        variant="outlined"
-                        style={{ margin: "0px 5px" }}
-                        size="small"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                      />
-                    </div>
-                    <div className=" mt-5">
-                      <TextField
-                        id="outlined-basic"
-                        label="Price"
-                        variant="outlined"
-                        style={{ margin: "0px 5px" }}
-                        size="small"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                      />
-                    </div>
-                    <div className=" mt-5">
-                      <TextField
-                        id="outlined-basic"
-                        label="Reach"
-                        variant="outlined"
-                        style={{ margin: "0px 5px" }}
-                        size="small"
-                        value={reach}
-                        onChange={(e) => setReach(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className=" mt-5">
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={addcreatecampaings}
-                    >
-                      Create Campaings
-                    </Button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+      <div className="flex">
+        <div>
+          <BrandSideBar />
         </div>
-      )}
-      <ul>
-        {createcampaings.map((item) => (
-          <BrandAllCampaings key={item.id} arr={item} />
-        ))}
-      </ul>
+        <div>
+          <Button variant="contained" color="primary" onClick={openPopup}>
+            Create New Campaigns
+          </Button>
+        </div>
+        {isPopupOpen && (
+          <div className="popup-overlay fixed inset-0 flex items-center justify-center">
+            <Box
+              sx={{
+                bgcolor: "background.paper",
+                boxShadow: 8,
+                borderRadius: 4,
+                p: 4,
+              }}
+            >
+              <Button onClick={closePopup}>Close</Button>
+              <h2>Create Campaign</h2>
+              <form onSubmit={addCreateCampaign}>
+                <TextField
+                  id="title"
+                  label="Title"
+                  variant="outlined"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <TextField
+                  id="description"
+                  label="Description"
+                  variant="outlined"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                <TextField
+                  id="price"
+                  label="Price"
+                  variant="outlined"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+                <TextField
+                  id="reach"
+                  label="Reach"
+                  variant="outlined"
+                  value={reach}
+                  onChange={(e) => setReach(e.target.value)}
+                />
+                <Button variant="contained" color="primary" type="submit">
+                  Create Campaign
+                </Button>
+              </form>
+            </Box>
+          </div>
+        )}
+        <ul>
+          {createCampaigns.map((item) => (
+            <BrandAllCampaings
+              key={item.id}
+              title={item.title}
+              description={item.description}
+              price={item.price}
+              reach={item.reach}
+            />
+          ))}
+        </ul>
+      </div>
     </>
   );
 };
 
-export default BrandCampaings;
+export default BrandCampaigns;

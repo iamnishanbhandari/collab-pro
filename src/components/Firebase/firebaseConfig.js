@@ -4,13 +4,13 @@ import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDlzNgozAxs_vDy6JPzCD53IRxZbC-Jg5Y",
-  authDomain: "collab-pro-95e86.firebaseapp.com",
-  projectId: "collab-pro-95e86",
-  storageBucket: "collab-pro-95e86.appspot.com",
-  messagingSenderId: "407021586886",
-  appId: "1:407021586886:web:1f98ff85ed607f02da0ac7",
-  measurementId: "G-4L0H9K6F61",
+  apiKey: "AIzaSyDS2LzkWu3iwzvL5RpL3zB40iLMCebnMUo",
+  authDomain: "infu-lab.firebaseapp.com",
+  projectId: "infu-lab",
+  storageBucket: "infu-lab.appspot.com",
+  messagingSenderId: "898395513893",
+  appId: "1:898395513893:web:9db00905c8079ac03dcbcc",
+  measurementId: "G-81SYM8Y1VE",
 };
 
 const app = initializeApp(firebaseConfig);

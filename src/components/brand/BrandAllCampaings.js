@@ -132,29 +132,54 @@
 // }
 
 import { List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
-import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "../Firebase/firebaseConfig.js";
+import { useState } from "react";
 
-const BrandAllCampaings = ({ arr }) => {
+const BrandAllCampaings = ({ title, description, price, reach }) => {
+  const [updatedTitle, setUpdatedTitle] = useState(title);
+  const [updatedPrice, setUpdatedPrice] = useState(price);
+  const [updatedDescription, setUpdatedDescription] = useState(description);
+  const [updatedReach, setUpdatedReach] = useState(reach);
+
   return (
     <List className="createcampaings__list">
       <ListItem>
         <ListItemAvatar />
-        <ListItemText
-          primary={arr.item.createcampaings}
-          secondary={arr.item.createcampaings}
-        />
+        <ListItemText />
+        <div className="flex gap-5 ">
+          <div className=" mb-4  h-full flex ">
+            <div className=" pt-25 pl-10">
+              <div>
+                <p className="font-bold flex justify-center  mt-20 text-3xl">
+                  {updatedTitle}
+                </p>
+              </div>
+              <div>
+                <p className="text-gray-500 font-semibold flex justify-start ">
+                  {updatedDescription}
+                </p>
+              </div>
+              <div className="flex justify-start  ">
+                <div className="text-gray-600 w-96 ">
+                  Rs {updatedPrice} <br /> {updatedReach} impressions{" "}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </ListItem>
+      {/* 
       <p
         fontSize="large"
         style={{ opacity: 0.7 }}
         onClick={() => {
-          deleteDoc(doc(db, "brandnewcampaings", arr.id));
+          setUpdatedTitle("New Title");
+          setUpdatedPrice(100);
         }}
       >
-        delete
-      </p>
+        Click me to update title and price
+      </p> */}
     </List>
   );
 };
+
 export default BrandAllCampaings;
