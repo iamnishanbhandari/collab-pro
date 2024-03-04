@@ -213,15 +213,19 @@
 
 // export default BrandCampaings;
 import React, { useState, useEffect } from "react";
-import BrandAllCampaings from "./BrandAllCampaings";
+// import BrandAllCampaigns from "./BrandAllCampaigns"; // Corrected import statement
+import BrandAllCampaigns from "./BrandAllCampaings";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebaseConfig";
 import { Button, Box, TextField } from "@mui/material";
 import BrandSideBar from "./BrandSideBar";
 import { serverTimestamp } from "firebase/firestore";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from "../Firebase/firebaseConfig";
 
 const BrandCampaigns = () => {
   const [createCampaigns, setCreateCampaigns] = useState([]);
+  const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -235,6 +239,7 @@ const BrandCampaigns = () => {
   const closePopup = () => {
     setIsPopupOpen(false);
   };
+
   const fetchCreateCampaigns = async () => {
     const q = collection(db, "brandnewcampaigns");
     const snapshot = await getDocs(q);
@@ -253,17 +258,47 @@ const BrandCampaigns = () => {
     e.preventDefault();
     const q = collection(db, "brandnewcampaigns");
     await addDoc(q, {
+      image: image,
       title: title,
       description: description,
       price: price,
       reach: reach,
       timestamp: serverTimestamp(),
     });
+    setImage("");
     setTitle("");
     setDescription("");
     setPrice("");
     setReach("");
-    fetchCreateCampaigns(); // Fetch campaigns after adding a new one
+    fetchCreateCampaigns();
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
+
+  const handleUpload = async () => {
+    if (image) {
+      const storageRef = ref(storage, `/images/${Date.now()}${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Track upload progress if needed
+        },
+        (error) => {
+          console.error("Error uploading image: ", error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // Now you can save the downloadURL to the database
+            console.log("File available at", downloadURL);
+          });
+        }
+      );
+    }
   };
 
   return (
@@ -318,6 +353,14 @@ const BrandCampaigns = () => {
                   value={reach}
                   onChange={(e) => setReach(e.target.value)}
                 />
+                <input type="file" onChange={handleImageChange} />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleUpload}
+                >
+                  Upload Image
+                </Button>
                 <Button variant="contained" color="primary" type="submit">
                   Create Campaign
                 </Button>
@@ -327,9 +370,10 @@ const BrandCampaigns = () => {
         )}
         <ul>
           {createCampaigns.map((item) => (
-            <BrandAllCampaings
+            <BrandAllCampaigns
               key={item.id}
               title={item.title}
+              image={item.image}
               description={item.description}
               price={item.price}
               reach={item.reach}

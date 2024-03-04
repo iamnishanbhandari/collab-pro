@@ -134,11 +134,13 @@
 import { List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
 import { useState } from "react";
 
-const BrandAllCampaings = ({ title, description, price, reach }) => {
+
+const BrandAllCampaings = ({ image, title, description, price, reach }) => {
   const [updatedTitle, setUpdatedTitle] = useState(title);
   const [updatedPrice, setUpdatedPrice] = useState(price);
   const [updatedDescription, setUpdatedDescription] = useState(description);
   const [updatedReach, setUpdatedReach] = useState(reach);
+  const [updateImg, setUpdatedImg] = useState(image);
 
   return (
     <List className="createcampaings__list">
@@ -148,6 +150,9 @@ const BrandAllCampaings = ({ title, description, price, reach }) => {
         <div className="flex gap-5 ">
           <div className=" mb-4  h-full flex ">
             <div className=" pt-25 pl-10">
+              <div>
+                <img src={image} alt="campaingimg"></img>
+              </div>
               <div>
                 <p className="font-bold flex justify-center  mt-20 text-3xl">
                   {updatedTitle}
