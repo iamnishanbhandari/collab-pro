@@ -131,9 +131,15 @@
 //   );
 // }
 
-import { List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Fab,
+} from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
 import { useState } from "react";
-
 
 const BrandAllCampaings = ({ image, title, description, price, reach }) => {
   const [updatedTitle, setUpdatedTitle] = useState(title);
@@ -143,47 +149,38 @@ const BrandAllCampaings = ({ image, title, description, price, reach }) => {
   const [updateImg, setUpdatedImg] = useState(image);
 
   return (
-    <List className="createcampaings__list">
-      <ListItem>
-        <ListItemAvatar />
-        <ListItemText />
-        <div className="flex gap-5 ">
-          <div className=" mb-4  h-full flex ">
-            <div className=" pt-25 pl-10">
+    <div style={{ position: "relative", zIndex: "-1" }}>
+      <List className="createcampaings__list">
+        <ListItem>
+          <ListItemAvatar>
+            <img
+              src={updateImg}
+              alt="campaign"
+              style={{
+                maxHeight: "200px",
+                borderRadius: "10px",
+                marginRight: "20px",
+              }}
+            />
+          </ListItemAvatar>
+          <ListItemText>
+            <div className="flex flex-col justify-between">
               <div>
-                <img src={image} alt="campaingimg"></img>
-              </div>
-              <div>
-                <p className="font-bold flex justify-center  mt-20 text-3xl">
-                  {updatedTitle}
-                </p>
-              </div>
-              <div>
-                <p className="text-gray-500 font-semibold flex justify-start ">
+                <p className="font-bold text-3xl">{updatedTitle}</p>
+                <p className="text-gray-500 font-semibold">
                   {updatedDescription}
                 </p>
               </div>
-              <div className="flex justify-start  ">
-                <div className="text-gray-600 w-96 ">
-                  Rs {updatedPrice} <br /> {updatedReach} impressions{" "}
+              <div className="flex justify-start">
+                <div className="text-gray-600">
+                  Rs {updatedPrice} <br /> {updatedReach}K impressions
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </ListItem>
-      {/* 
-      <p
-        fontSize="large"
-        style={{ opacity: 0.7 }}
-        onClick={() => {
-          setUpdatedTitle("New Title");
-          setUpdatedPrice(100);
-        }}
-      >
-        Click me to update title and price
-      </p> */}
-    </List>
+          </ListItemText>
+        </ListItem>
+      </List>
+    </div>
   );
 };
 

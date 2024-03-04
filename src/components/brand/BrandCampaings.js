@@ -213,7 +213,6 @@
 
 // export default BrandCampaings;
 import React, { useState, useEffect } from "react";
-// import BrandAllCampaigns from "./BrandAllCampaigns"; // Corrected import statement
 import BrandAllCampaigns from "./BrandAllCampaings";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebaseConfig";
@@ -222,6 +221,8 @@ import BrandSideBar from "./BrandSideBar";
 import { serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../Firebase/firebaseConfig";
+import { Fab } from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
 
 const BrandCampaigns = () => {
   const [createCampaigns, setCreateCampaigns] = useState([]);
@@ -256,130 +257,225 @@ const BrandCampaigns = () => {
 
   const addCreateCampaign = async (e) => {
     e.preventDefault();
-    const q = collection(db, "brandnewcampaigns");
-    await addDoc(q, {
-      image: image,
-      title: title,
-      description: description,
-      price: price,
-      reach: reach,
-      timestamp: serverTimestamp(),
-    });
-    setImage("");
-    setTitle("");
-    setDescription("");
-    setPrice("");
-    setReach("");
-    fetchCreateCampaigns();
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-  };
-
-  const handleUpload = async () => {
     if (image) {
       const storageRef = ref(storage, `/images/${Date.now()}${image.name}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       uploadTask.on(
         "state_changed",
-        (snapshot) => {
-          // Track upload progress if needed
-        },
+        (snapshot) => {},
         (error) => {
           console.error("Error uploading image: ", error);
         },
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            // Now you can save the downloadURL to the database
-            console.log("File available at", downloadURL);
-          });
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadURL) => {
+              const q = collection(db, "brandnewcampaigns");
+              addDoc(q, {
+                image: downloadURL,
+                title: title,
+                description: description,
+                price: price,
+                reach: reach,
+                timestamp: serverTimestamp(),
+              })
+                .then(() => {
+                  setImage("");
+                  setTitle("");
+                  setDescription("");
+                  setPrice("");
+                  setReach("");
+                  fetchCreateCampaigns();
+                })
+                .catch((error) => {
+                  console.error("Error adding document: ", error);
+                });
+            })
+            .catch((error) => {
+              console.error("Error getting download URL: ", error);
+            });
         }
       );
+    } else {
+      console.error("No image selected");
+    }
+  };
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const handleUpload = () => {
+    if (image) {
+      const storageRef = ref(storage, `/images/${Date.now()}${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
+        (error) => {
+          console.error("Error uploading image: ", error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadURL) => {
+              console.log("File available at", downloadURL);
+            })
+            .catch((error) => {
+              console.error("Error getting download URL: ", error);
+            });
+        }
+      );
+    } else {
+      console.error("No image selected");
     }
   };
 
   return (
     <>
-      <div className="flex">
-        <div>
-          <BrandSideBar />
-        </div>
-        <div>
-          <Button variant="contained" color="primary" onClick={openPopup}>
-            Create New Campaigns
-          </Button>
-        </div>
-        {isPopupOpen && (
-          <div className="popup-overlay fixed inset-0 flex items-center justify-center">
-            <Box
-              sx={{
-                bgcolor: "background.paper",
-                boxShadow: 8,
-                borderRadius: 4,
-                p: 4,
-              }}
-            >
-              <Button onClick={closePopup}>Close</Button>
-              <h2>Create Campaign</h2>
-              <form onSubmit={addCreateCampaign}>
-                <TextField
-                  id="title"
-                  label="Title"
-                  variant="outlined"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <TextField
-                  id="description"
-                  label="Description"
-                  variant="outlined"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-                <TextField
-                  id="price"
-                  label="Price"
-                  variant="outlined"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-                <TextField
-                  id="reach"
-                  label="Reach"
-                  variant="outlined"
-                  value={reach}
-                  onChange={(e) => setReach(e.target.value)}
-                />
-                <input type="file" onChange={handleImageChange} />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleUpload}
-                >
-                  Upload Image
-                </Button>
-                <Button variant="contained" color="primary" type="submit">
-                  Create Campaign
-                </Button>
-              </form>
-            </Box>
+      <div className="flex justify-between">
+        <div className="flex">
+          <div>
+            <BrandSideBar />
           </div>
-        )}
-        <ul>
-          {createCampaigns.map((item) => (
-            <BrandAllCampaigns
-              key={item.id}
-              title={item.title}
-              image={item.image}
-              description={item.description}
-              price={item.price}
-              reach={item.reach}
-            />
-          ))}
-        </ul>
+          <div>
+            {isPopupOpen && (
+              <div className="popup-overlay fixed inset-0 flex items-center justify-center">
+                <Box
+                  sx={{
+                    bgcolor: "background.paper",
+                    boxShadow: 8,
+                    borderRadius: 4,
+                    p: 4,
+                    maxWidth: "600px",
+                    position: "relative",
+                  }}
+                >
+                  <Box>
+                    <h1>Create Campaign</h1>
+                  </Box>
+                  <Box>
+                    <form onSubmit={addCreateCampaign}>
+                      <Box m={1}>
+                        <TextField
+                          id="title"
+                          label="Title"
+                          variant="outlined"
+                          value={title}
+                          fullWidth
+                          required
+                          onChange={(e) => setTitle(e.target.value)}
+                        />
+                      </Box>
+                      <Box m={1}>
+                        <TextField
+                          id="description"
+                          label="Description"
+                          variant="outlined"
+                          fullWidth
+                          value={description}
+                          required
+                          onChange={(e) => setDescription(e.target.value)}
+                        />
+                      </Box>
+                      <Box m={1}>
+                        <TextField
+                          id="price"
+                          label="Price"
+                          variant="outlined"
+                          fullWidth
+                          required
+                          value={price}
+                          onChange={(e) => setPrice(e.target.value)}
+                        />
+                      </Box>
+                      <Box m={1}>
+                        <TextField
+                          id="reach"
+                          label="Reach"
+                          variant="outlined"
+                          fullWidth
+                          required
+                          value={reach}
+                          onChange={(e) => setReach(e.target.value)}
+                        />
+                      </Box>
+                      <Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-around",
+                          }}
+                        >
+                          <Box>
+                            <input type="file" onChange={handleImageChange} />
+                          </Box>
+                          <Box sx={{ border: "1px solid green" }}>
+                            <Button
+                              onClick={handleUpload}
+                              sx={{ height: "10px" }}
+                            >
+                              Upload
+                            </Button>
+                          </Box>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            mt: "15px",
+                          }}
+                        >
+                          <Box>
+                            <Button
+                              variant="contained"
+                              type="submit"
+                              sx={{ bgcolor: "green", color: "white" }}
+                            >
+                              Create Campaign
+                            </Button>
+                          </Box>
+                          <Box>
+                            <Button
+                              variant="contained"
+                              onClick={closePopup}
+                              sx={{ bgcolor: "red", color: "white" }}
+                            >
+                              Close{" "}
+                            </Button>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </form>
+                  </Box>
+                </Box>
+              </div>
+            )}
+          </div>
+          <div>
+            <ul>
+              {createCampaigns.map((item) => (
+                <BrandAllCampaigns
+                  key={item.id}
+                  image={item.image}
+                  title={item.title}
+                  description={item.description}
+                  price={item.price}
+                  reach={item.reach}
+                />
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className=" flex flex-col justify-end sticky m-10">
+          <Fab
+            color="primary"
+            style={{ position: "sticky", bottom: "20px", right: "20px" }}
+            onClick={openPopup}
+          >
+            <AddIcon />
+          </Fab>
+        </div>
       </div>
     </>
   );
